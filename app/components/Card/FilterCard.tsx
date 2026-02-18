@@ -15,7 +15,7 @@ type Props = {
 function FilterCard({ product}: Props) {
   const router = useRouter();
 
-  // ✅ memoized first variant
+  //   memoized first variant
   const variant = useMemo(() => {
     return product.variants?.[0] ?? null;
   }, [product.variants]);

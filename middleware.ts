@@ -59,7 +59,7 @@ export function middleware(req: NextRequest) {
 
   const isLoggedIn = req.cookies.get("auth")?.value === "1";
 
-  // ✅ ONLY checkout is protected
+  //   ONLY checkout is protected
   if (!isLoggedIn && pathname.startsWith("/checkout")) {
     const url = req.nextUrl.clone();
     url.pathname = "/login";

@@ -26,7 +26,7 @@ export default function Wishlist() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto lg:px-30 md:px-20 px-2">
+    <section className="max-w-7xl mx-auto min-h-[70vh] lg:px-30 md:px-20 px-2">
       {wishlist.length > 0 ? (<h2 className="text-xl font-semibold mb-2 lg:pt-8">
         My Wishlist{" "}
         <span className="text-gray-500 font-normal">

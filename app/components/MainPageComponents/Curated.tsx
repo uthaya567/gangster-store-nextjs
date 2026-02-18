@@ -18,13 +18,13 @@ const products = [
 export default function Curated() {
   const pathname = usePathname();
 
-  // ✅ memoize gender once
+  //   memoize gender once
   const gender = useMemo(() => {
     const g = pathname.split("/")[1];
     return g ? g.toLowerCase() : null;
   }, [pathname]);
 
-  // ✅ optimized filtering
+  //   optimized filtering
   const filteredSlides = useMemo(() => {
     if (!gender) return products;
 
@@ -39,7 +39,7 @@ export default function Curated() {
         curated for you
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 lg:gap-3 gap-2 px-2 py-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 lg:gap-3 gap-2 px-1 py-2">
         {filteredSlides.map((item) => (
           <div
             key={item.id}

@@ -10,13 +10,13 @@ export default function CardsGrid() {
   const pathname = usePathname();
   const { setSection } = useSection();
 
-  // ✅ memoized gender from route
+  //   memoized gender from route
   const gender = useMemo(() => {
     const g = pathname.split("/")[1];
     return g ? g.toLowerCase() : null;
   }, [pathname]);
 
-  // ✅ memoized filtered products
+  //   memoized filtered products
   const filteredProducts = useMemo(() => {
     if (!gender) return products;
 
@@ -25,7 +25,7 @@ export default function CardsGrid() {
     );
   }, [gender]);
 
-  // ✅ update section only when gender changes
+  //   update section only when gender changes
   useEffect(() => {
     if (!gender) return;
 

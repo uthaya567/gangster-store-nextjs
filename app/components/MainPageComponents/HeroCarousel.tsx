@@ -10,13 +10,13 @@ export default function HeroCarousel() {
   const [current, setCurrent] = useState(0);
   const pathname = usePathname();
 
-  // ✅ memoized gender
+  //   memoized gender
   const gender = useMemo(() => {
     const g = pathname.split("/")[1];
     return g ? g.toLowerCase() : null;
   }, [pathname]);
 
-  // ✅ filter from original slides only
+  //   filter from original slides only
   const filteredSlides = useMemo(() => {
     if (!gender) return slides;
 
@@ -25,12 +25,12 @@ export default function HeroCarousel() {
     );
   }, [gender]);
 
-  // ✅ reset index when filter changes
+  //   reset index when filter changes
   useEffect(() => {
     setCurrent(0);
   }, [filteredSlides]);
 
-  // ✅ auto slide
+  //   auto slide
   useEffect(() => {
     if (filteredSlides.length <= 1) return;
 

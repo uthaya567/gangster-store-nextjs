@@ -25,7 +25,7 @@ export default function ProductPage() {
   const params = useParams();
   const router = useRouter();
 
-  // ✅ memoized product lookup
+  //   memoized product lookup
   const result = useMemo(() => {
     const slug = decodeURIComponent(params.slug as string)
       .toLowerCase()

@@ -17,7 +17,7 @@ type Props = {
 function ProductCard({ product, gender }: Props) {
   const router = useRouter();
 
-  // ✅ stable first variant
+  //   stable first variant
   const variant = useMemo(() => {
     return product.variants?.[0] ?? null;
   }, [product.variants]);

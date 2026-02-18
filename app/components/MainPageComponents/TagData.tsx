@@ -77,7 +77,7 @@ export default function TagData() {
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-3 px-3 py-2">
         {filteredProducts.map((item) => (
           <ProductCard
             key={item.id}

@@ -50,13 +50,13 @@ export default function Cart() {
   const loginLink = `/login?redirect=${encodeURIComponent(redirectTarget)}`;
 
   const handlePlaceOrder = () => {
-    // ✅ if not logged in → go to login
+    //   if not logged in → go to login
     if (!isLoggedIn) {
       router.push(loginLink);
       return;
     }
 
-    // ✅ logged in → go to checkout
+    //   logged in → go to checkout
     router.push("/checkout");
   };
 
@@ -214,7 +214,7 @@ export default function Cart() {
                 </div>
               </div>
 
-              {/* ✅ Place order button with login check */}
+              {/*   Place order button with login check */}
               <button
                 onClick={handlePlaceOrder}
                 className="w-full bg-teal-700 text-white py-3 text-sm font-semibold rounded-b-md opacity-90 cursor-pointer"

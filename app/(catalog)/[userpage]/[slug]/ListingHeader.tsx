@@ -533,7 +533,7 @@ export default function ListingHeader() {
               </button>
             </div>
           ))}
-          
+
           {selectedPrice && (
             <div className="flex shrink-0 items-center gap-2 border px-2 py-1 rounded">
               <p className="text-sm">{selectedPrice.label}</p>
@@ -546,11 +546,41 @@ export default function ListingHeader() {
             </div>
           )}
         </div>
+        <div className="lg:py-4 px-2 w-full py-2 min-h-screen">
 
-        <div className="lg:py-4 px-2 py-2 min-h-screen">
-          <SideBar filteredProducts={filteredProducts} />
+          {filteredProducts.length === 0 ? (
+
+            <div className="flex flex-col items-center justify-center h-[60vh] text-center space-y-4">
+
+              <h2 className="text-2xl font-semibold text-gray-800">
+                No Products Found
+              </h2>
+
+              <p className="text-gray-500 max-w-md">
+                We couldn’t find any products matching your selected filters.
+                Try adjusting or clearing your filters.
+              </p>
+
+              <button
+                onClick={() => {
+                  setSelectedSubCategories([]);
+                  setSelectedSizes([]);
+                  setSelectedPrice(null);
+                }}
+                className="px-6 py-2 bg-black text-white rounded-md hover:opacity-90 transition"
+              >
+                Clear Filters
+              </button>
+
+            </div>
+
+          ) : (
+
+            <SideBar filteredProducts={filteredProducts} />
+
+          )}
+
         </div>
-
         <FilterDrawer open={menuOpen} onClose={closeMenu} position="left">
           <Category
             allSubCategories={allSubCategories}

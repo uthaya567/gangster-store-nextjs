@@ -44,18 +44,18 @@ export default function Category({
             <div className="py-3">
                 <button
                     onClick={() => setOpen(open === "Category" ? null : "Category")}
-                    className="flex w-full justify-between font-medium"
+                    className="flex w-full justify-between font-medium text-lg"
                 >
                     Catogory
                     <span>{open === "Category" ? "▲" : "▼"}</span>
                 </button>
 
                 {open === "Category" && (
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                         {allSubCategories.map((cat) => (
                             <label
                                 key={cat}
-                                className="flex items-center justify-between text-sm cursor-pointer"
+                                className="flex items-center justify-between text-lg text-gray-600 font-medium cursor-pointer"
                             >
                                 <div className="flex items-center gap-2">
                                     <input
@@ -81,17 +81,17 @@ export default function Category({
                 )}
             </div>
             {/* Size */}
-            <div className="py-3">
+            <div className="py-2">
                 <button
                     onClick={() => setOpen(open === "size" ? null : "size")}
-                    className="flex w-full justify-between font-medium"
+                    className="flex w-full justify-between font-medium text-lg"
                 >
                     Size
                     <span>{open === "size" ? "▲" : "▼"}</span>
                 </button>
 
                 {open === "size" && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 text-lg text-gray-600 ">
                         {allSizes.map(size => (
                             <button
                                 key={size}
@@ -122,20 +122,20 @@ export default function Category({
             <div className="py-3">
                 <button
                     onClick={() => setOpen(open === "Price" ? null : "Price")}
-                    className="flex w-full justify-between font-medium"
+                    className="flex w-full justify-between font-medium text-lg "
                 >
                     Price
                     <span>{open === "Price" ? "▲" : "▼"}</span>
                 </button>
 
                 {open === "Price" && (
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                         {PRICE_RANGES.map(p => (
                             <label
                                 key={p.id}
                                 className="flex items-center justify-between text-sm cursor-pointer"
                             >
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2 text-lg text-gray-600 ">
                                     <input
                                         type="radio"
                                         name="price"

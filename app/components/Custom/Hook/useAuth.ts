@@ -50,7 +50,7 @@ export function useAuth() {
 
     localStorage.setItem("session", JSON.stringify(newSession));
 
-    // ✅ cookie for middleware
+    //   cookie for middleware
     document.cookie = "auth=1; path=/";
 
     loadSession();
@@ -59,7 +59,7 @@ export function useAuth() {
   const logout = () => {
     localStorage.removeItem("session");
 
-    // ✅ remove cookie for middleware
+    //   remove cookie for middleware
     document.cookie = "auth=; path=/; max-age=0";
 
     setSession(null);

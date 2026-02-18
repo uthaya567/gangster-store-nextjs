@@ -13,6 +13,10 @@ export default function NewArrivals() {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(4);
 
+  // Touch states
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
   const gender = useMemo(() => {
     const g = pathname.split("/")[1];
     return g ? g.toUpperCase() : null;
@@ -25,7 +29,7 @@ export default function NewArrivals() {
 
   const product = useMemo(() => items.slice(0, 8), [items]);
 
-  // ✅ responsive page size
+  // Responsive page size
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
@@ -64,6 +68,30 @@ export default function NewArrivals() {
     setPage((p) => (p === 0 ? totalPages - 1 : p - 1));
   }, [totalPages]);
 
+  // Swipe logic
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+
+    if (distance > minSwipeDistance) {
+      next();
+    } else if (distance < -minSwipeDistance) {
+      prev();
+    }
+  };
+
   if (!product.length) return null;
 
   return (
@@ -73,9 +101,14 @@ export default function NewArrivals() {
       </div>
 
       <div className="relative px-2">
-        <div className="overflow-hidden">
+        <div
+          className="overflow-hidden"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           <div
-            className="flex transition-transform duration-500 ease-in-out"
+            className="flex transition-transform duration-300 ease-out"
             style={{ transform: `translateX(-${page * 100}%)` }}
           >
             {pages.map((group, pageIndex) => (
@@ -88,7 +121,7 @@ export default function NewArrivals() {
                     return (
                       <div
                         key={item.id}
-                        className="shrink-0 w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/4 px-2"
+                        className="shrink-0 w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/4 px-1"
                       >
                         <div className="border border-gray-300">
                           <Link
@@ -97,13 +130,20 @@ export default function NewArrivals() {
                             <Image
                               src={v.mainImage}
                               alt={v.Product_name}
+                              height={500}
                               className="w-full md:h-87.5 lg:h-120 h-60 object-cover"
                             />
                           </Link>
                           <div className="mt-2 text-sm px-2">
-                            <p className="font-medium truncate">{v.Product_name}</p>
-                            <p className="text-gray-400">{item.subCategory}</p>
-                            <p className="text-gray-500">₹ {v.price}</p>
+                            <p className="font-medium truncate">
+                              {v.Product_name}
+                            </p>
+                            <p className="text-gray-400">
+                              {item.subCategory}
+                            </p>
+                            <p className="text-gray-500">
+                              ₹ {v.price}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -115,18 +155,19 @@ export default function NewArrivals() {
           </div>
         </div>
 
+        {/* Desktop Arrows Only */}
         {totalPages > 1 && (
           <>
             <button
               onClick={prev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 text-white bg-black/10 p-2 shadow rounded-full"
+              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 text-white bg-black/20 p-2 shadow rounded-full"
             >
               <MdArrowBackIos size={18} />
             </button>
 
             <button
               onClick={next}
-              className="absolute right-0 top-1/2 -translate-y-1/2 text-white bg-black/10 p-2 shadow rounded-full"
+              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 text-white bg-black/20 p-2 shadow rounded-full"
             >
               <MdArrowForwardIos size={18} />
             </button>

@@ -69,7 +69,7 @@ export default async function Page({ params }: Props) {
 
   const normalizedGender = normalize(gender);
 
-  // ✅ FIXED: check gender, not post
+  //   FIXED: check gender, not post
   if (!ALLOWED.includes(normalizedGender)) notFound();
 
   if (!isValidCategory(post)) notFound();

@@ -23,7 +23,7 @@ function getUsers(): User[] {
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login } = useAuth(); // ✅ use hook
+  const { login } = useAuth(); //   use hook
 
   const rawRedirect = searchParams.get("redirect");
   const redirect = rawRedirect ? decodeURIComponent(rawRedirect) : null;
@@ -61,7 +61,7 @@ export default function LoginPage() {
       return;
     }
 
-    // ✅ single source of truth
+    //   single source of truth
     login({
       userId: user.id,
       name: user.name,

@@ -26,13 +26,13 @@ export default function Collections() {
   const [current, setCurrent] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
 
-  // ✅ gender
+  //   gender
   const gender = useMemo(() => {
     const g = pathname.split("/")[1];
     return g ? g.toUpperCase() : null;
   }, [pathname]);
 
-  // ✅ listen screen size
+  //   listen screen size
   useEffect(() => {
     const onResize = () => {
       setIsDesktop(window.innerWidth > 600);
@@ -43,7 +43,7 @@ export default function Collections() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // ✅ filter once
+  //   filter once
   const filteredSlide1 = useMemo(() => {
     if (!gender) return slide1;
     return slide1.filter((s) => s.gender === gender);
@@ -54,12 +54,12 @@ export default function Collections() {
     return slide2.filter((s) => s.gender === gender);
   }, [gender]);
 
-  // ✅ select slides from state instead of storing in state
+  //   select slides from state instead of storing in state
   const slides = useMemo(() => {
     return isDesktop ? filteredSlide1 : filteredSlide2;
   }, [isDesktop, filteredSlide1, filteredSlide2]);
 
-  // ✅ reset index only when slides really change
+  //   reset index only when slides really change
   useEffect(() => {
     setCurrent(0);
   }, [slides.length]);

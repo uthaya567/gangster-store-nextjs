@@ -12,6 +12,10 @@ export default function Type3Carousel() {
   const [current, setCurrent] = useState(0);
   const [cardsPerView, setCardsPerView] = useState(4);
 
+  // Touch states
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
   const gender = useMemo(() => {
     const g = pathname.split("/")[1];
     return g ? g.toUpperCase() : null;
@@ -31,14 +35,14 @@ export default function Type3Carousel() {
     return Array.from(map.values());
   }, [gender]);
 
-  // ✅ responsive
+  // Responsive cards per view
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
 
-      if (w < 640) setCardsPerView(2);      // mobile
-      else if (w < 1024) setCardsPerView(3); // md
-      else setCardsPerView(4);               // lg
+      if (w < 640) setCardsPerView(2);
+      else if (w < 1024) setCardsPerView(3);
+      else setCardsPerView(4);
     };
 
     update();
@@ -68,6 +72,30 @@ export default function Type3Carousel() {
     setCurrent((p) => (p === 0 ? maxIndex : p - 1));
   }, [maxIndex]);
 
+  // Swipe Logic
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+
+    if (distance > minSwipeDistance) {
+      next();
+    } else if (distance < -minSwipeDistance) {
+      prev();
+    }
+  };
+
   if (!cards.length) return null;
 
   return (
@@ -76,7 +104,12 @@ export default function Type3Carousel() {
         Collections
       </div>
 
-      <div className="overflow-hidden ">
+      <div
+        className="overflow-hidden"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <div
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${current * 100}%)` }}
@@ -87,18 +120,17 @@ export default function Type3Carousel() {
                 {group.map((card) => (
                   <div
                     key={card.id}
-                    className="shrink-0 px-2
-                               basis-1/2
-                               md:basis-1/3
-                               lg:basis-1/4"
+                    className="shrink-0 px-1 basis-1/2 md:basis-1/3 lg:basis-1/4"
                   >
-                    <div className="bg-white rounded-xl shadow-md overflow-hidden  border border-gray-300 w-full ">
+                    <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-300 w-full">
                       <Link
                         href={`/${gender?.toLowerCase()}/${card.category}`}
                       >
                         <Image
                           src={card.variants[0].mainImage}
                           alt={card.category}
+                          width={500}
+                          height={600}
                           className="w-full h-60 md:h-87.5 lg:h-110 object-cover"
                         />
                       </Link>
@@ -115,7 +147,7 @@ export default function Type3Carousel() {
         </div>
       </div>
 
-      {/* prev */}
+      {/* Desktop Arrows */}
       <button
         onClick={prev}
         className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full"
@@ -123,7 +155,6 @@ export default function Type3Carousel() {
         <MdArrowBackIos />
       </button>
 
-      {/* next */}
       <button
         onClick={next}
         className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full"
@@ -131,14 +162,16 @@ export default function Type3Carousel() {
         <MdArrowForwardIos />
       </button>
 
-      {/* dots */}
+      {/* Mobile Dots */}
       <div className="flex justify-center gap-3 mt-5 lg:hidden">
         {pages.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
-            className={`w-2 h-2 rounded-full ${
-              current === i ? "bg-red-500 scale-110" : "bg-gray-400"
+            className={`w-2 h-2 rounded-full transition-all ${
+              current === i
+                ? "bg-red-500 scale-110"
+                : "bg-gray-400"
             }`}
           />
         ))}
